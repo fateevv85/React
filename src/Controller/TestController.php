@@ -11,6 +11,6 @@ class TestController extends AbstractController
     #[Route('/test')]
     public function __invoke():Response
     {
-        return new Response('Hell112o');
+        return $this->render('test/index.html.twig');
     }
 }
