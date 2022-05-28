@@ -1,23 +1,24 @@
 import React, {Component} from "react";
+import RepLogList from "./RepLogList";
 
 export default class RepLogApp extends Component {
     constructor(props, context) {
         super(props, context);
 
+        this.handleRowClick = this.handleRowClick.bind(this);
         this.state = {
             highlightedRowId: null,
         };
     }
 
-    render() {
-        let heart = this.props.withHeart ? <span>❤️</span> : '';
-        const {highlightedRowId} = this.state;
+    handleRowClick(repLogId, event) {
+        this.setState({highlightedRowId: repLogId});
+        console.log(event);
+    }
 
-        const repLogs = [
-            {id: 1, reps: 25, itemLabel: 'My Laptop', weight: 4},
-            {id: 2, reps: 10, itemLabel: 'Big Fat Cat', weight: 15},
-            {id: 8, reps: 4, itemLabel: 'Fat Cat', weight: 10}
-        ];
+    render() {
+        const heart = this.props.withHeart ? <span>❤️</span> : '';
+        let {highlightedRowId} = this.state;
 
         return (
             <div className="col-md-7 js-rep-log-table">
@@ -34,18 +35,7 @@ export default class RepLogApp extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {repLogs.map((repLog) => (
-                        <tr
-                            key={repLog.id}
-                            className={highlightedRowId === repLog.id ? 'info' : ''}
-                        >
-                            <td>{repLog.itemLabel}</td>
-                            <td>{repLog.reps}</td>
-                            <td>{repLog.weight}</td>
-                            <td>{repLog.reps * repLog.weight}</td>
-                            <td>...</td>
-                        </tr>
-                    ))}
+                    <RepLogList highlightedRowId={highlightedRowId} onRowClick={this.handleRowClick}/>
                     </tbody>
                     <tfoot>
                     <tr>
