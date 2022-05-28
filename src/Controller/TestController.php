@@ -8,8 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TestController extends AbstractController
 {
-    #[Route('/test')]
-    public function __invoke():Response
+    #[Route('/test', methods: ['GET'])]
+    public function __invoke(): Response
     {
         return $this->render('test/index.html.twig');
     }
