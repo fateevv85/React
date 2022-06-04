@@ -7,6 +7,7 @@ export default class RepLogApp extends Component {
         super(props, context);
 
         this.handleRowClick = this.handleRowClick.bind(this);
+        this.handleNewItemSubmit = this.handleNewItemSubmit.bind(this);
         this.state = {
             highlightedRowId: null,
             repLogs: [
@@ -17,16 +18,31 @@ export default class RepLogApp extends Component {
         };
     }
 
-    handleRowClick(repLogId, event) {
+    handleRowClick(repLogId) {
         this.setState({highlightedRowId: repLogId});
-        console.log(event);
+    }
+
+    handleNewItemSubmit(itemId, reps) {
+        const {repLogs} = this.state;
+
+        for (const [idx, repLog] of repLogs.entries()) {
+            if (repLog.id === itemId) {
+                repLogs[idx].reps = reps;
+                this.setState({repLogs: repLogs});
+                return;
+
+            }
+        }
+
+        console.error(`Item with id ${itemId} not found`);
     }
 
     render() {
         return (<RepLogTable
             {...this.props}
             {...this.state}
-            handleRowClick={this.handleRowClick}
+            onRowClick={this.handleRowClick}
+            onNewItemSubmit={this.handleNewItemSubmit}
         />);
     }
 }

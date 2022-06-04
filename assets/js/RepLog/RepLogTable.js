@@ -1,13 +1,23 @@
 import React from "react";
 import RepLogList from "./RepLogList";
 import PropTypes from 'prop-types';
+import RepLogCreator from "./RepLogCreator";
 
 export default function RepLogTable(props) {
-    const {withHeart, highlightedRowId, handleRowClick, repLogs} = props;
+    const {withHeart, highlightedRowId, onRowClick, repLogs, onNewItemSubmit} = props;
     const heart = withHeart ? <span>❤️</span> : '';
     const calculateTotalWeight = repLogs => repLogs.reduce((accumulator, repLog) => {
         return accumulator + (repLog.reps * repLog.weight)
     }, 0);
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+        onNewItemSubmit(
+            parseInt(event.target.elements.namedItem('item').value),
+            parseInt(event.target.elements.namedItem('reps').value)
+        );
+    }
 
     return (
         <div className="col-md-7 js-rep-log-table">
@@ -26,7 +36,7 @@ export default function RepLogTable(props) {
                 <tbody>
                 <RepLogList
                     highlightedRowId={highlightedRowId}
-                    onRowClick={handleRowClick}
+                    onRowClick={onRowClick}
                     repLogs={repLogs}
                 />
                 </tbody>
@@ -41,7 +51,12 @@ export default function RepLogTable(props) {
                 </tfoot>
             </table>
 
-            <form className="form-inline">
+            <RepLogCreator/>
+
+            <form
+                className="form-inline"
+                onSubmit={(event) => handleFormSubmit(event)}
+            >
                 <div className="form-group">
                     <label className="sr-only control-label required"
                            htmlFor="rep_log_item">
@@ -54,10 +69,14 @@ export default function RepLogTable(props) {
                         <option value="">What did you
                             lift?
                         </option>
-                        <option value="cat">Cat</option>
-                        <option value="fat_cat">Big Fat Cat</option>
-                        <option value="laptop">My Laptop</option>
-                        <option value="coffee_cup">Coffee Cup</option>
+                        {repLogs.map((repLog) => (
+                            <option
+                                value={repLog.id}
+                                key={repLog.id}
+                            >
+                                {repLog.itemLabel}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 {' '}
@@ -66,8 +85,10 @@ export default function RepLogTable(props) {
                            htmlFor="rep_log_reps">
                         How many times?
                     </label>
-                    <input type="number" id="rep_log_reps"
-                           name="reps" required="required"
+                    <input type="number"
+                           id="rep_log_reps"
+                           name="reps"
+                           required="required"
                            placeholder="How many times?"
                            className="form-control"/>
                 </div>
@@ -86,6 +107,7 @@ export default function RepLogTable(props) {
 RepLogTable.propTypes = {
     withHeart: PropTypes.bool,
     highlightedRowId: PropTypes.number,
-    handleRowClick: PropTypes.func.isRequired,
+    onRowClick: PropTypes.func.isRequired,
     repLogs: PropTypes.array.isRequired,
+    onNewItemSubmit: PropTypes.func.isRequired,
 };

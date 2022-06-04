@@ -9,7 +9,7 @@ export default function RepLogList(props) {
             <tr
                 key={repLog.id}
                 className={highlightedRowId === repLog.id ? 'bg-amber-500' : ''}
-                onClick={(event) => onRowClick(repLog.id, event)}
+                onClick={() => onRowClick(repLog.id)}
             >
                 <td>{repLog.itemLabel}</td>
                 <td>{repLog.reps}</td>
