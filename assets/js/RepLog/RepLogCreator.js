@@ -6,16 +6,25 @@ export default class RepLogCreator extends Component {
         super(props);
 
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+
+        this.quantityInput = React.createRef();
+        this.itemSelect = React.createRef();
     }
 
     handleFormSubmit(event) {
         event.preventDefault();
         const {onNewItemSubmit} = this.props;
 
+        const quantityInput = this.quantityInput.current;
+        const itemSelect = this.itemSelect.current;
+
         onNewItemSubmit(
-            parseInt(event.target.elements.namedItem('item').value),
-            parseInt(event.target.elements.namedItem('reps').value)
+            itemSelect.options[itemSelect.selectedIndex].value,
+            parseInt(quantityInput.value)
         );
+
+        quantityInput.value = null;
+        itemSelect.selectedIndex = '';
     }
 
     render() {
@@ -32,7 +41,7 @@ export default class RepLogCreator extends Component {
                         What did you lift?
                     </label>
                     <select id="rep_log_item"
-                            name="item"
+                            ref={this.itemSelect}
                             required="required"
                             className="form-control">
                         <option value="">What did you
@@ -56,7 +65,7 @@ export default class RepLogCreator extends Component {
                     </label>
                     <input type="number"
                            id="rep_log_reps"
-                           name="reps"
+                           ref={this.quantityInput}
                            required="required"
                            placeholder="How many times?"
                            className="form-control"/>

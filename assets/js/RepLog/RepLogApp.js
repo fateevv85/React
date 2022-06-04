@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import RepLogTable from "./RepLogTable";
 import PropTypes from 'prop-types';
+import {v4 as uuid} from 'uuid';
 
 export default class RepLogApp extends Component {
     constructor(props, context) {
@@ -11,9 +12,9 @@ export default class RepLogApp extends Component {
         this.state = {
             highlightedRowId: null,
             repLogs: [
-                {id: 1, reps: 25, itemLabel: 'My Laptop', weight: 4},
-                {id: 2, reps: 10, itemLabel: 'Big Fat Cat', weight: 15},
-                {id: 8, reps: 4, itemLabel: 'Fat Cat', weight: 10}
+                {id: uuid(), reps: 25, itemLabel: 'My Laptop', weight: 4},
+                {id: uuid(), reps: 10, itemLabel: 'Big Fat Cat', weight: 15},
+                {id: uuid(), reps: 4, itemLabel: 'Fat Cat', weight: 10}
             ]
         };
     }
@@ -29,12 +30,19 @@ export default class RepLogApp extends Component {
             if (repLog.id === itemId) {
                 repLogs[idx].reps = reps;
                 this.setState({repLogs: repLogs});
-                return;
 
+                return;
             }
         }
 
-        console.error(`Item with id ${itemId} not found`);
+        repLogs.push({
+            id: itemId,
+            reps: reps,
+            itemLabel: 'TODO',
+            weight: Math.floor(Math.random() * 10),
+        });
+
+        this.setState({repLogs: repLogs});
     }
 
     render() {

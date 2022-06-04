@@ -12,8 +12,8 @@ export default function RepLogList(props) {
                 onClick={() => onRowClick(repLog.id)}
             >
                 <td>{repLog.itemLabel}</td>
-                <td>{repLog.reps}</td>
                 <td>{repLog.weight}</td>
+                <td>{repLog.reps}</td>
                 <td>{repLog.reps * repLog.weight}</td>
                 <td>...</td>
             </tr>

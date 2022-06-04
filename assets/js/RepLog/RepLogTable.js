@@ -18,8 +18,8 @@ export default function RepLogTable(props) {
                 <thead>
                 <tr>
                     <th>What</th>
-                    <th>How many times?</th>
                     <th>Weight</th>
+                    <th>How many times?</th>
                     <th>Total</th>
                     <th>&nbsp;</th>
                 </tr>
