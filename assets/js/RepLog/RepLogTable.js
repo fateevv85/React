@@ -10,15 +10,6 @@ export default function RepLogTable(props) {
         return accumulator + (repLog.reps * repLog.weight)
     }, 0);
 
-    function handleFormSubmit(event) {
-        event.preventDefault();
-
-        onNewItemSubmit(
-            parseInt(event.target.elements.namedItem('item').value),
-            parseInt(event.target.elements.namedItem('reps').value)
-        );
-    }
-
     return (
         <div className="col-md-7 js-rep-log-table">
             <h2>Lift Stuff! {heart}</h2>
@@ -51,55 +42,10 @@ export default function RepLogTable(props) {
                 </tfoot>
             </table>
 
-            <RepLogCreator/>
-
-            <form
-                className="form-inline"
-                onSubmit={(event) => handleFormSubmit(event)}
-            >
-                <div className="form-group">
-                    <label className="sr-only control-label required"
-                           htmlFor="rep_log_item">
-                        What did you lift?
-                    </label>
-                    <select id="rep_log_item"
-                            name="item"
-                            required="required"
-                            className="form-control">
-                        <option value="">What did you
-                            lift?
-                        </option>
-                        {repLogs.map((repLog) => (
-                            <option
-                                value={repLog.id}
-                                key={repLog.id}
-                            >
-                                {repLog.itemLabel}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                {' '}
-                <div className="form-group">
-                    <label className="sr-only control-label required"
-                           htmlFor="rep_log_reps">
-                        How many times?
-                    </label>
-                    <input type="number"
-                           id="rep_log_reps"
-                           name="reps"
-                           required="required"
-                           placeholder="How many times?"
-                           className="form-control"/>
-                </div>
-                {' '}
-                <div>
-                    <button type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        I Lifted it!
-                    </button>
-                </div>
-            </form>
+            <RepLogCreator
+                repLogs={repLogs}
+                onNewItemSubmit={onNewItemSubmit}
+            />
         </div>
     );
 }
