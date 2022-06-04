@@ -1,5 +1,6 @@
 import React from "react";
 import RepLogList from "./RepLogList";
+import PropTypes from 'prop-types';
 
 export default function RepLogTable(props) {
     const {withHeart, highlightedRowId, handleRowClick} = props;
@@ -74,3 +75,9 @@ export default function RepLogTable(props) {
         </div>
     );
 }
+
+RepLogTable.propTypes = {
+    withHeart: PropTypes.bool,
+    highlightedRowId: PropTypes.number,
+    handleRowClick: PropTypes.func.isRequired
+};
