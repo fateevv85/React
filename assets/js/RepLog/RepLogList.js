@@ -2,13 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 export default function RepLogList(props) {
-    const repLogs = [
-        {id: 1, reps: 25, itemLabel: 'My Laptop', weight: 4},
-        {id: 2, reps: 10, itemLabel: 'Big Fat Cat', weight: 15},
-        {id: 8, reps: 4, itemLabel: 'Fat Cat', weight: 10}
-    ];
-
-    const {highlightedRowId, onRowClick} = props;
+    const {highlightedRowId, onRowClick, repLogs} = props;
 
     return (
         repLogs.map((repLog) => (
@@ -29,5 +23,6 @@ export default function RepLogList(props) {
 
 RepLogList.propTypes = {
     highlightedRowId: PropTypes.number,
-    onRowClick: PropTypes.func.isRequired
+    onRowClick: PropTypes.func.isRequired,
+    repLogs: PropTypes.array.isRequired,
 };

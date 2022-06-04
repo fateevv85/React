@@ -3,14 +3,17 @@ import RepLogList from "./RepLogList";
 import PropTypes from 'prop-types';
 
 export default function RepLogTable(props) {
-    const {withHeart, highlightedRowId, handleRowClick} = props;
+    const {withHeart, highlightedRowId, handleRowClick, repLogs} = props;
     const heart = withHeart ? <span>❤️</span> : '';
+    const calculateTotalWeight = repLogs => repLogs.reduce((accumulator, repLog) => {
+        return accumulator + (repLog.reps * repLog.weight)
+    }, 0);
 
     return (
         <div className="col-md-7 js-rep-log-table">
             <h2>Lift Stuff! {heart}</h2>
 
-            <table className="table table-striped">
+            <table className="table table-striped text-center">
                 <thead>
                 <tr>
                     <th>What</th>
@@ -21,14 +24,18 @@ export default function RepLogTable(props) {
                 </tr>
                 </thead>
                 <tbody>
-                <RepLogList highlightedRowId={highlightedRowId} onRowClick={handleRowClick}/>
+                <RepLogList
+                    highlightedRowId={highlightedRowId}
+                    onRowClick={handleRowClick}
+                    repLogs={repLogs}
+                />
                 </tbody>
                 <tfoot>
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <th>Total</th>
-                    <th>TODO</th>
+                    <th>{calculateTotalWeight(repLogs)}</th>
                     <td>&nbsp;</td>
                 </tr>
                 </tfoot>
@@ -79,5 +86,6 @@ export default function RepLogTable(props) {
 RepLogTable.propTypes = {
     withHeart: PropTypes.bool,
     highlightedRowId: PropTypes.number,
-    handleRowClick: PropTypes.func.isRequired
+    handleRowClick: PropTypes.func.isRequired,
+    repLogs: PropTypes.array.isRequired,
 };
