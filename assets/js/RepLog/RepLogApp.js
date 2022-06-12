@@ -24,25 +24,26 @@ export default class RepLogApp extends Component {
     }
 
     handleNewItemSubmit(itemId, reps) {
-        const {repLogs} = this.state;
+        this.setState((prevState) => {
+            const repLogsNew = [...prevState.repLogs];
 
-        for (const [idx, repLog] of repLogs.entries()) {
-            if (repLog.id === itemId) {
-                repLogs[idx].reps = reps;
-                this.setState({repLogs: repLogs});
+            for (const [idx, repLog] of repLogsNew.entries()) {
+                if (repLog.id === itemId) {
+                    repLogsNew[idx].reps = reps;
 
-                return;
+                    return {repLogs: repLogsNew};
+                }
             }
-        }
 
-        repLogs.push({
-            id: itemId,
-            reps: reps,
-            itemLabel: 'TODO',
-            weight: Math.floor(Math.random() * 10),
+            repLogsNew.push({
+                id: itemId,
+                reps: reps,
+                itemLabel: 'TODO',
+                weight: Math.floor(Math.random() * 10),
+            });
+
+            return {repLogs: repLogsNew}
         });
-
-        this.setState({repLogs: repLogs});
     }
 
     render() {
