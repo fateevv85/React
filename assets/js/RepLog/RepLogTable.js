@@ -1,11 +1,11 @@
 import React from "react";
 import RepLogList from "./RepLogList";
 import PropTypes from 'prop-types';
-// import RepLogCreator from "./RepLogCreator";
-import RepLogCreator from "./RepLogCreatorControlledComponents";
+import RepLogCreator from "./RepLogCreator";
+// import RepLogCreator from "./RepLogCreatorControlledComponents";
 
 export default function RepLogTable(props) {
-    const {withHeart, highlightedRowId, onRowClick, repLogs, onAddNewItem, numberOfHearts, onHeartChange} = props;
+    const {withHeart, highlightedRowId, onRowClick, repLogs, onAddNewItem, numberOfHearts, onHeartChange, onDeleteItem} = props;
 
     const renderHearts = (withHeart, numberOfHearts) => {
         if (withHeart && numberOfHearts > 0) {
@@ -44,6 +44,7 @@ export default function RepLogTable(props) {
                     highlightedRowId={highlightedRowId}
                     onRowClick={onRowClick}
                     repLogs={repLogs}
+                    onDeleteItem={onDeleteItem}
                 />
                 </tbody>
                 <tfoot>
@@ -67,10 +68,11 @@ export default function RepLogTable(props) {
 
 RepLogTable.propTypes = {
     withHeart: PropTypes.bool,
-    highlightedRowId: PropTypes.number,
+    highlightedRowId: PropTypes.string,
     onRowClick: PropTypes.func.isRequired,
     repLogs: PropTypes.array.isRequired,
     onAddNewItem: PropTypes.func.isRequired,
     numberOfHearts: PropTypes.number.isRequired,
     onHeartChange: PropTypes.func.isRequired,
+    onDeleteItem: PropTypes.func.isRequired,
 };

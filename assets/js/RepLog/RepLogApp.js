@@ -10,6 +10,7 @@ export default class RepLogApp extends Component {
         this.handleRowClick = this.handleRowClick.bind(this);
         this.handleAddNewItem = this.handleAddNewItem.bind(this);
         this.handleHeartChange = this.handleHeartChange.bind(this);
+        this.handleDeleteItem = this.handleDeleteItem.bind(this);
 
         this.state = {
             highlightedRowId: null,
@@ -55,6 +56,15 @@ export default class RepLogApp extends Component {
         });
     }
 
+    handleDeleteItem(itemId) {
+        this.setState((prevState) => {
+                return {
+                    repLogs: prevState.repLogs.filter(repLog => repLog.id !== itemId)
+                }
+            }
+        );
+    }
+
     render() {
         return (<RepLogTable
             {...this.props}
@@ -62,6 +72,7 @@ export default class RepLogApp extends Component {
             onRowClick={this.handleRowClick}
             onAddNewItem={this.handleAddNewItem}
             onHeartChange={this.handleHeartChange}
+            onDeleteItem={this.handleDeleteItem}
         />);
     }
 }
