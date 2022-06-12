@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import RepLogCreator from "./RepLogCreator";
 
 export default function RepLogTable(props) {
-    const {withHeart, highlightedRowId, onRowClick, repLogs, onNewItemSubmit} = props;
+    const {withHeart, highlightedRowId, onRowClick, repLogs, onAddNewItem} = props;
     const heart = withHeart ? <span>❤️</span> : '';
     const calculateTotalWeight = repLogs => repLogs.reduce((accumulator, repLog) => {
         return accumulator + (repLog.reps * repLog.weight)
@@ -44,7 +44,7 @@ export default function RepLogTable(props) {
 
             <RepLogCreator
                 repLogs={repLogs}
-                onNewItemSubmit={onNewItemSubmit}
+                onNewItemSubmit={onAddNewItem}
             />
         </div>
     );
@@ -55,5 +55,5 @@ RepLogTable.propTypes = {
     highlightedRowId: PropTypes.number,
     onRowClick: PropTypes.func.isRequired,
     repLogs: PropTypes.array.isRequired,
-    onNewItemSubmit: PropTypes.func.isRequired,
+    onAddNewItem: PropTypes.func.isRequired,
 };

@@ -9,6 +9,10 @@ export default class RepLogCreator extends Component {
 
         this.quantityInput = React.createRef();
         this.itemSelect = React.createRef();
+
+        this.state = {
+            quantityInputError: ''
+        };
     }
 
     handleFormSubmit(event) {
@@ -18,6 +22,12 @@ export default class RepLogCreator extends Component {
         const quantityInput = this.quantityInput.current;
         const itemSelect = this.itemSelect.current;
 
+        if (quantityInput.value < 0) {
+            this.setState({quantityInputError: 'Quantity must be positive integer or null'});
+
+            return;
+        }
+
         onNewItemSubmit(
             itemSelect.options[itemSelect.selectedIndex].value,
             parseInt(quantityInput.value)
@@ -25,10 +35,13 @@ export default class RepLogCreator extends Component {
 
         quantityInput.value = null;
         itemSelect.selectedIndex = '';
+
+        this.setState({quantityInputError: ''});
     }
 
     render() {
         const {repLogs} = this.props;
+        const {quantityInputError} = this.state;
 
         return (
             <form
@@ -58,7 +71,7 @@ export default class RepLogCreator extends Component {
                     </select>
                 </div>
                 {' '}
-                <div className="form-group">
+                <div className={`form-group ${quantityInputError && 'has-error'}`}>
                     <label className="sr-only control-label required"
                            htmlFor="rep_log_reps">
                         How many times?
@@ -69,6 +82,8 @@ export default class RepLogCreator extends Component {
                            required="required"
                            placeholder="How many times?"
                            className="form-control"/>
+
+                    {quantityInputError && <p className="text-red-700">{quantityInputError}</p>}
                 </div>
                 {' '}
                 <div>

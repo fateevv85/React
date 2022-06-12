@@ -8,7 +8,7 @@ export default class RepLogApp extends Component {
         super(props, context);
 
         this.handleRowClick = this.handleRowClick.bind(this);
-        this.handleNewItemSubmit = this.handleNewItemSubmit.bind(this);
+        this.handleAddNewItem = this.handleAddNewItem.bind(this);
         this.state = {
             highlightedRowId: null,
             repLogs: [
@@ -23,7 +23,7 @@ export default class RepLogApp extends Component {
         this.setState({highlightedRowId: repLogId});
     }
 
-    handleNewItemSubmit(itemId, reps) {
+    handleAddNewItem(itemId, reps) {
         this.setState((prevState) => {
             const repLogsNew = [...prevState.repLogs];
 
@@ -51,7 +51,7 @@ export default class RepLogApp extends Component {
             {...this.props}
             {...this.state}
             onRowClick={this.handleRowClick}
-            onNewItemSubmit={this.handleNewItemSubmit}
+            onAddNewItem={this.handleAddNewItem}
         />);
     }
 }
