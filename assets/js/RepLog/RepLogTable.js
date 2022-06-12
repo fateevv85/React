@@ -1,18 +1,33 @@
 import React from "react";
 import RepLogList from "./RepLogList";
 import PropTypes from 'prop-types';
-import RepLogCreator from "./RepLogCreator";
+// import RepLogCreator from "./RepLogCreator";
+import RepLogCreator from "./RepLogCreatorControlledComponents";
 
 export default function RepLogTable(props) {
-    const {withHeart, highlightedRowId, onRowClick, repLogs, onAddNewItem} = props;
-    const heart = withHeart ? <span>❤️</span> : '';
+    const {withHeart, highlightedRowId, onRowClick, repLogs, onAddNewItem, numberOfHearts, onHeartChange} = props;
+
+    const renderHearts = (withHeart, numberOfHearts) => {
+        if (withHeart && numberOfHearts > 0) {
+            return <span>{'❤'.repeat(numberOfHearts)}</span>;
+        }
+
+        return '';
+    };
+
     const calculateTotalWeight = repLogs => repLogs.reduce((accumulator, repLog) => {
         return accumulator + (repLog.reps * repLog.weight)
     }, 0);
 
     return (
         <div className="col-md-7 js-rep-log-table">
-            <h2>Lift Stuff! {heart}</h2>
+            <h2>Lift Stuff! {renderHearts(withHeart, numberOfHearts)}</h2>
+            <input
+                type="range"
+                value={numberOfHearts}
+                onChange={(e) => {
+                    onHeartChange(+e.target.value);
+                }}/>
 
             <table className="table table-striped text-center">
                 <thead>
@@ -56,4 +71,6 @@ RepLogTable.propTypes = {
     onRowClick: PropTypes.func.isRequired,
     repLogs: PropTypes.array.isRequired,
     onAddNewItem: PropTypes.func.isRequired,
+    numberOfHearts: PropTypes.number.isRequired,
+    onHeartChange: PropTypes.func.isRequired,
 };
