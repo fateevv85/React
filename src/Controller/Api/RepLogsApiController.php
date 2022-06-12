@@ -14,6 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api')]
 class RepLogsApiController extends AbstractController
 {
+    /**
+     * @todo add jwt token support
+     */
     public function __construct(
         private RepLogRepository $repLogRepository,
         private EntityManagerInterface $em
@@ -25,7 +28,7 @@ class RepLogsApiController extends AbstractController
     {
         return $this->json(
             array_map(
-                static fn(RepLog $repLog) => RepLogDto::fromRepLog($repLog),
+                static fn(RepLog $repLog) => RepLogDto::fromRepLog($repLog)->toArray(),
                 $this->repLogRepository->findAll()
             )
         );

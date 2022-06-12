@@ -3,6 +3,7 @@
 namespace App\Dto;
 
 use App\Entity\RepLog;
+use Spatie\DataTransferObject\Attributes\MapTo;
 use Spatie\DataTransferObject\DataTransferObject;
 
 /**
@@ -10,10 +11,12 @@ use Spatie\DataTransferObject\DataTransferObject;
  */
 class RepLogDto extends DataTransferObject
 {
+    #[MapTo('id')]
     public string $uuid;
 
     public int    $reps;
 
+    #[MapTo('itemLabel')]
     public string $label;
 
     public int    $weight;
