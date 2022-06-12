@@ -22,7 +22,7 @@ class RepLogDto extends DataTransferObject
     {
         return new self(
             [
-                'uuid'   => $repLog->getId()->asString(),
+                'uuid'   => $repLog->getId()->asRfc4122(),
                 'reps'   => $repLog->getReps()->asInt(),
                 'label'  => $repLog->getLabel()->asString(),
                 'weight' => $repLog->getWeight()->asInt(),

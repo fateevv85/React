@@ -19,15 +19,20 @@ class Uuid
         return new self(VendorUuid::v4()->toRfc4122());
     }
 
-    public function asString(): string
+    public function asRfc4122(): string
     {
         return $this->uuid;
+    }
+
+    public function asBinary(): string
+    {
+        return VendorUuid::fromString($this->uuid)->toBinary();
     }
 
     /**
      * @throws InvalidArgumentException When the passed value is not valid
      */
-    public static function fromString(string $uuid): self
+    public static function fromRfc4122(string $uuid): self
     {
         return new self(VendorUuid::fromRfc4122($uuid)->toRfc4122());
     }
