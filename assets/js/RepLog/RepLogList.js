@@ -15,7 +15,11 @@ export default function RepLogList(props) {
                 <td>{repLog.weight}</td>
                 <td>{repLog.reps}</td>
                 <td>{repLog.reps * repLog.weight}</td>
-                <td>...</td>
+                <td>
+                    <a href="#">
+                        <i className="fa-solid fa-trash-can"></i>
+                    </a>
+                </td>
             </tr>
         ))
     );
