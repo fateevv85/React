@@ -15,16 +15,16 @@ export default class RepLogApp extends Component {
         this.state = {
             highlightedRowId: null,
             repLogs: [],
-            numberOfHearts: 1
+            numberOfHearts: 1,
+            isLoaded: false,
         };
     }
 
-    componentDidMount() {
-        getRepLogs().then((json) => {
-            console.log(json);
+    async componentDidMount() {
+        const json = await getRepLogs();
+        this.setState({repLogs: json});
 
-            this.setState({repLogs: json})
-        });
+        console.log(json);
     }
 
     handleHeartChange(heartCount) {
