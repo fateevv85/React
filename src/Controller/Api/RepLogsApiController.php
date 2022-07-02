@@ -34,6 +34,23 @@ class RepLogsApiController extends AbstractController
         );
     }
 
+    #[Route('/rep', methods: ['GET'])]
+    public function getRepLog(RepLog $repLog): JsonResponse
+    {
+        return $this->json(RepLogDto::fromRepLog($repLog)->toArray());
+    }
+
+    #[Route('/reps', methods: ['DELETE'])]
+    public function deleteRepLog(RepLog $repLog): JsonResponse
+    {
+        try {
+            $this->em->remove($repLog);
+        } catch (\Throwable $e) {
+        }
+
+        return $this->json(['ok']);
+    }
+
     #[Route('/test', methods: ['GET'])]
     public function test(): Response
     {

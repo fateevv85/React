@@ -5,7 +5,7 @@ import RepLogCreator from "./RepLogCreator";
 // import RepLogCreator from "./RepLogCreatorControlledComponents";
 
 export default function RepLogTable(props) {
-    const {withHeart, highlightedRowId, onRowClick, repLogs, onAddNewItem, numberOfHearts, onHeartChange, onDeleteItem} = props;
+    const {withHeart, highlightedRowId, onRowClick, repLogs, onAddNewItem, numberOfHearts, onHeartChange, onDeleteItem, isLoaded} = props;
 
     const renderHearts = (withHeart, numberOfHearts) => {
         if (withHeart && numberOfHearts > 0) {
@@ -45,6 +45,7 @@ export default function RepLogTable(props) {
                     onRowClick={onRowClick}
                     repLogs={repLogs}
                     onDeleteItem={onDeleteItem}
+                    isLoaded={isLoaded}
                 />
                 </tbody>
                 <tfoot>
@@ -75,4 +76,5 @@ RepLogTable.propTypes = {
     numberOfHearts: PropTypes.number.isRequired,
     onHeartChange: PropTypes.func.isRequired,
     onDeleteItem: PropTypes.func.isRequired,
+    isLoaded: PropTypes.bool.isRequired,
 };

@@ -22,7 +22,10 @@ export default class RepLogApp extends Component {
 
     async componentDidMount() {
         const json = await getRepLogs();
-        this.setState({repLogs: json});
+        this.setState({
+            repLogs: json,
+            isLoaded: true,
+        });
 
         console.log(json);
     }
