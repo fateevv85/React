@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import RepLogTable from "./RepLogTable";
 import PropTypes from 'prop-types';
-import {getRepLogs} from '../api/rep_log_api';
+import {getRepLogs, deleteRepLog} from '../api/rep_log_api';
 
 export default class RepLogApp extends Component {
     constructor(props, context) {
@@ -63,7 +63,11 @@ export default class RepLogApp extends Component {
         });
     }
 
-    handleDeleteItem(itemId) {
+    async handleDeleteItem(itemId) {
+        console.log('delete item', itemId);
+
+        await deleteRepLog(itemId);
+
         this.setState((prevState) => {
                 return {
                     repLogs: prevState.repLogs.filter(repLog => repLog.id !== itemId)

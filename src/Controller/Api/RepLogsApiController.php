@@ -8,6 +8,7 @@ use App\Repository\RepLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -34,17 +35,30 @@ class RepLogsApiController extends AbstractController
         );
     }
 
-    #[Route('/rep', methods: ['GET'])]
+    #[Route('/rep/{id}', methods: ['GET'])]
     public function getRepLog(RepLog $repLog): JsonResponse
     {
         return $this->json(RepLogDto::fromRepLog($repLog)->toArray());
     }
 
-    #[Route('/reps', methods: ['DELETE'])]
+    /*#[Route('/reps', methods: ['POST'])]
+    public function createRepLog(Request $request): JsonResponse
+    {
+        $repLogDto = new RepLogDto();
+        $repLog = new RepLog();
+
+        $this->em->persist();
+        $this->em->flush();
+
+        return $this->json();
+    }*/
+
+    #[Route('/reps/{id}', methods: ['DELETE'])]
     public function deleteRepLog(RepLog $repLog): JsonResponse
     {
         try {
             $this->em->remove($repLog);
+            $this->em->flush();
         } catch (\Throwable $e) {
         }
 
