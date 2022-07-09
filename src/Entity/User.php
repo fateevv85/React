@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Service\UserPasswordHasher;
+use App\ValueObject\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Id;
@@ -10,39 +12,37 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements AuthenticatedUser
 {
     #[Id]
     #[Column(type: 'uuid', unique: true, nullable: false)]
-    private string $id;
+    private string  $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private        $email;
+    private string  $email;
 
     #[ORM\Column(type: 'json')]
-    private        $roles = [];
+    private array   $roles;
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column(type: 'string')]
-    private $password;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $password;
 
-    public function getId(): ?int
+    public function __construct(Uuid $id, string $email)
+    {
+        $this->id       = $id->asRfc4122();
+        $this->email    = $email;
+        $this->roles    = [];
+        $this->password = null;
+    }
+
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**
@@ -67,26 +67,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(UserPasswordHasher $passwordHasher, ?string $password): void
     {
-        $this->password = $password;
+        if ($password === null) {
+            $this->password = null;
 
-        return $this;
+            return;
+        }
+
+        $this->password = $passwordHasher->hash($this, $password);
     }
 
     public function eraseCredentials(): void

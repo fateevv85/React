@@ -1,19 +1,19 @@
 controllers:
-    resource: ../../src/Controller/
+    resource: ../src/Controller/
     type: annotation
 
 api:
-    resource: ../../src/Controller/Api/
+    resource: ../src/Controller/Api/
     type: annotation
     prefix: '/api'
 
 api_auth:
-    resource: ../../src/Controller/Api/Auth
+    resource: ../src/Controller/Api/Auth
     type: annotation
     prefix: '/api/auth'
 
 api_auth_token:
-    resource: ../../src/Controller/Api/Auth
+    resource: ../src/Controller/Api/Auth
     type: annotation
     prefix: '/api/auth/token'
 
@@ -21,5 +21,5 @@ gesdinet_jwt_refresh_token:
     path: /api/auth/token/refresh
 
 kernel:
-    resource: ../../src/Kernel.php
+    resource: ../src/Kernel.php
     type: annotation
