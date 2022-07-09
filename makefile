@@ -3,7 +3,7 @@ test:
 	./vendor/bin/psalm
 
 migrate-generate:
-	php bin/console make:migration
+	php bin/console doctrine:migrations:diff
 
 migrate-execute:
 	php bin/console doctrine:migrations:migrate
