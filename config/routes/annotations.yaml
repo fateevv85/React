@@ -1,0 +1,22 @@
+controllers:
+    resource: ../../src/Controller/
+    type: annotation
+
+api:
+    resource: ../../src/Controller/Api/
+    type: annotation
+    prefix: '/api'
+
+api_auth:
+    resource: ../../src/Controller/Api/Auth
+    type: annotation
+    prefix: '/api/auth'
+
+api_auth_token:
+    resource: ../../src/Controller/Api/Auth
+    type: annotation
+    prefix: '/api/auth/token'
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation

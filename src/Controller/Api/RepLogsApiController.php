@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api')]
-class RepLogsApiController extends AbstractController
+final class RepLogsApiController extends AbstractController
 {
     /**
      * @todo add jwt token support
