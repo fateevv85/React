@@ -7,15 +7,13 @@ api:
     type: annotation
     prefix: '/api'
 
-api_auth:
-    resource: ../src/Controller/Api/Auth
+api_users:
+    resource: ../src/Controller/Api/Users
     type: annotation
-    prefix: '/api/auth'
+    prefix: '/api/users'
 
-api_auth_token:
-    resource: ../src/Controller/Api/Auth
-    type: annotation
-    prefix: '/api/auth/token'
+api_login_check:
+    path: /api/auth/token/login
 
 gesdinet_jwt_refresh_token:
     path: /api/auth/token/refresh

@@ -28,7 +28,7 @@ security:
             entry_point: jwt
             jwt: ~
             refresh_jwt:
-                check_path: /api/token/refresh
+                check_path: /api/auth/token/refresh
         main:
             lazy: true
             provider: app_user_provider
