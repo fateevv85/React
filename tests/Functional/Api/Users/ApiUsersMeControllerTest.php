@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Api\Auth\Token;
+namespace App\Tests\Functional\Api\Users;
 
 use App\Dto\UserDto;
+use App\Dto\UserRegistrationDto;
 use App\Entity\AuthenticatedUser;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -18,7 +19,7 @@ use function json_decode;
 use function json_encode;
 use function sprintf;
 
-final class AuthTokenLoginControllerTest extends WebTestCase
+final class ApiUsersMeControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 
@@ -73,7 +74,7 @@ final class AuthTokenLoginControllerTest extends WebTestCase
     {
         $faker = Factory::create();
 
-        $user = $this->factory->create($faker->email(), $faker->password());
+        $user = $this->factory->create(new UserRegistrationDto($faker->email(), $faker->password()));
 
         $this->getUserRepository()->add($user, true);
 

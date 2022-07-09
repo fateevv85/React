@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Dto\UserRegistrationDto;
 use App\Entity\AuthenticatedUser;
 use App\Entity\User;
 use App\ValueObject\Uuid;
-use Webmozart\Assert\Assert;
 
 final class UserFactory
 {
@@ -15,12 +15,10 @@ final class UserFactory
     {
     }
 
-    public function create(string $email, string $password): AuthenticatedUser
+    public function create(UserRegistrationDto $dto): AuthenticatedUser
     {
-        Assert::email($email);
-
-        $user = new User(Uuid::next(), $email);
-        $user->setPassword($this->passwordHasher, $password);
+        $user = new User(Uuid::next(), $dto->email);
+        $user->setPassword($this->passwordHasher, $dto->plainPassword);
 
         return $user;
     }

@@ -8,10 +8,12 @@ use App\ValueObject\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Id;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements AuthenticatedUser
 {
     #[Id]
@@ -27,12 +29,16 @@ class User implements AuthenticatedUser
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $password;
 
+    #[ORM\Column(type: 'boolean')]
+    private         $isVerified;
+
     public function __construct(Uuid $id, string $email)
     {
-        $this->id       = $id->asRfc4122();
-        $this->email    = $email;
-        $this->roles    = [];
-        $this->password = null;
+        $this->id         = $id->asRfc4122();
+        $this->email      = $email;
+        $this->roles      = [];
+        $this->password   = null;
+        $this->isVerified = false;
     }
 
     public function getId(): string
@@ -88,5 +94,17 @@ class User implements AuthenticatedUser
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }
