@@ -29,15 +29,6 @@ security:
             jwt: ~
             refresh_jwt:
                 check_path: /api/auth/token/refresh
-        main:
-            lazy: true
-            provider: app_user_provider
-            form_login:
-                # "app_login" is the name of the route
-                login_path: login
-                check_path: login
-                enable_csrf: true
-
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -47,12 +38,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: PUBLIC_ACCESS }
+        - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/auth/token/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/auth/token/refresh, roles: PUBLIC_ACCESS }
-        - { path: ^/api/users/me, roles: ROLE_USER }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/api, roles: ROLE_USER }
 
 when@test:
     security:

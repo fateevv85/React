@@ -30,7 +30,7 @@ class User implements AuthenticatedUser
     private ?string $password;
 
     #[ORM\Column(type: 'boolean')]
-    private         $isVerified;
+    private bool    $isVerified;
 
     public function __construct(Uuid $id, string $email)
     {
