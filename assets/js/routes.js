@@ -6,6 +6,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 
+// todo сделать protected routes
 function Routing() {
     return (
         <BrowserRouter>

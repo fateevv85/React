@@ -11,10 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
-use function array_map;
 
 final class RegistrationController extends AbstractController
 {
@@ -22,23 +21,23 @@ final class RegistrationController extends AbstractController
         private EmailVerifier $emailVerifier,
         private UserFactory $userFactory,
         private UserRepository $userRepository,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private SerializerInterface $serializer
+
     ) {
     }
 
-    #[Route('/register', name: 'register')]
+    #[Route('/register', name: 'register', methods: ['POST'])]
     public function register(Request $request): JsonResponse
     {
-        $dto = new UserRegistrationDto($request->request);
+        $parsedData = $this->serializer->decode($request->getContent(), JsonEncoder::FORMAT);
+        $dto        = new UserRegistrationDto($parsedData);
         $violations = $this->validator->validate($dto);
 
         if ($violations->count()) {
             return $this->json(
                 [
-                    'violations' => array_map(
-                        static fn(ConstraintViolationInterface $violation) => $violation->getMessage(),
-                        (array) $violations
-                    ),
+                    'violations' => (string) $violations,
                 ],
                 Response::HTTP_BAD_REQUEST
             );

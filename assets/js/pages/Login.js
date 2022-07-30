@@ -4,6 +4,8 @@ import {setAuthToken} from "../helpers/setAuthToken"
 import SubmitButton from "../components/SubmitButton";
 import LinkButton from "../components/LinkButton";
 
+// todo доделать логин, убрать дублирование из Register, сделать сохранение refreshToken
+
 function Login() {
     const handleSubmit = (email, password) => {
         axios
@@ -51,7 +53,7 @@ function Login() {
             </form>
 
             <div>
-                <LinkButton to='/register' name='Register'/>
+                <LinkButton to='/register' name='Create account'/>
             </div>
         </div>
     );

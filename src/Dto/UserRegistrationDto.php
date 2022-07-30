@@ -17,7 +17,4 @@ final class UserRegistrationDto extends DataTransferObject
     #[Assert\NotBlank(message: 'Please enter a password')]
     #[Assert\Length(min: 6, max: 4096, minMessage: 'Your password should be at least {{ limit }} characters')]
     public string $plainPassword = '';
-
-    #[Assert\IsTrue]
-    public bool   $terms         = false;
 }

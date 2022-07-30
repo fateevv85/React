@@ -4,8 +4,8 @@ import {getJWT, hasJWT} from '../helpers/jwtToken';
 import React from "react";
 
 function App() {
-    if (hasJWT) {
-        setAuthToken(getJWT);
+    if (hasJWT()) {
+        setAuthToken(getJWT());
     }
 
     return (
