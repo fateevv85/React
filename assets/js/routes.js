@@ -3,7 +3,8 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import RouteGuard from "./components/RouteGuard";
 
 import Home from "./pages/Home"
-import LoginPage from "./pages/Login"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function Routing() {
     return (
@@ -18,11 +19,11 @@ function Routing() {
                 </Route>
                 <Route
                     path="/login"
-                    element={<LoginPage/>}
+                    element={<Login/>}
                 />
                 <Route
                     path="/register"
-                    element={<LoginPage/>}
+                    element={<Register/>}
                 />
                 <Route path="*" element={<Navigate to="/login" replace/>}/>
             </Routes>

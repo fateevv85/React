@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import {setAuthToken} from "../helpers/setAuthToken"
-import {Link} from "react-router-dom";
+import SubmitButton from "../components/SubmitButton";
+import LinkButton from "../components/LinkButton";
 
 function Login() {
     const handleSubmit = (email, password) => {
@@ -38,15 +39,19 @@ function Login() {
                     handleSubmit(email, password);
                 }}
             >
-                <label htmlFor="email">Email</label><br/>
-                <input type="email" id="email" name="email"/><br/>
-                <label htmlFor="password">Password</label><br/>
-                <input type="password" id="password" name="password"/><br></br>
-                <input type="submit" value="Submit"/>
+                <label htmlFor="email">Email</label>
+                <br/>
+                <input type="email" id="email" name="email"/>
+                <br/>
+                <label htmlFor="password">Password</label>
+                <br/>
+                <input type="password" id="password" name="password"/>
+                <br/>
+                <SubmitButton name='Login'/>
             </form>
 
             <div>
-                <Link to='/register' className="px-6 py-3 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">Register</Link>
+                <LinkButton to='/register' name='Register'/>
             </div>
         </div>
     );
