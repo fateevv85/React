@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import axios from "axios";
 import {setAuthToken} from "../helpers/setAuthToken"
 import SubmitButton from "../components/SubmitButton";
@@ -6,13 +6,31 @@ import LinkButton from "../components/LinkButton";
 
 // todo доделать логин, убрать дублирование из Register, сделать сохранение refreshToken
 
-function Login() {
-    const handleSubmit = (email, password) => {
+export default class Login extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+
+        this.email = React.createRef();
+        this.password = React.createRef();
+
+        this.state = {
+            loginError: '',
+        };
+    }
+
+    handleFormSubmit(event) {
+        event.preventDefault();
+
+        const email = this.email.current;
+        const password = this.password.current;
+
         axios
             .post("/api/auth/token/login",
                 {
-                    email: email,
-                    password: password
+                    email: email.value,
+                    password: password.value
                 }
             )
             .then(response => {
@@ -29,34 +47,38 @@ function Login() {
                 window.location.href = '/'
 
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+
+                this.setState({loginError: err.response.data});
+            });
     };
 
-    return (
-        <div>
-            <form
-                onSubmit={(event) => {
-                    event.preventDefault()
-                    const [email, password] = event.target.children;
-                    handleSubmit(email, password);
-                }}
-            >
-                <label htmlFor="email">Email</label>
-                <br/>
-                <input type="email" id="email" name="email"/>
-                <br/>
-                <label htmlFor="password">Password</label>
-                <br/>
-                <input type="password" id="password" name="password"/>
-                <br/>
-                <SubmitButton name='Login'/>
-            </form>
+    render() {
+        const {loginError} = this.state;
 
+        return (
             <div>
-                <LinkButton to='/register' name='Create account'/>
+                <form
+                    onSubmit={this.handleFormSubmit}
+                >
+                    <label htmlFor="email">Email</label>
+                    <br/>
+                    <input type="email" id="email" name="email" ref={this.email}/>
+                    <br/>
+                    <label htmlFor="password">Password</label>
+                    <br/>
+                    <input type="password" id="password" name="password" ref={this.password}/>
+                    <br/>
+                    <SubmitButton name='Login'/>
+                </form>
+                <div>
+                    {loginError && <p className="text-red-700">{loginError}</p>}
+                </div>
+                <div>
+                    <LinkButton to='/register' name='Create account'/>
+                </div>
             </div>
-        </div>
-    );
-}
-
-export default Login
+        );
+    }
+};

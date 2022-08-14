@@ -8,18 +8,14 @@ use App\Repository\RepLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class RepLogsApiController extends AbstractController
 {
-    /**
-     * @todo add jwt token support
-     */
     public function __construct(
         private RepLogRepository $repLogRepository,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
     ) {
     }
 

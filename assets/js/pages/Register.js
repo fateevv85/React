@@ -32,6 +32,8 @@ export default class Register extends Component {
             return;
         }
 
+        this.setState({termSubmitError: ''});
+
         const data = {
             email: email.value,
             plainPassword: password.value,
@@ -65,7 +67,9 @@ export default class Register extends Component {
                     })
                     .catch(err => console.log(err));
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.setState({termSubmitError: err.response.data.error_message});
+            });
     }
 
     render() {

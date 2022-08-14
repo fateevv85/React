@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Dto\UserRegistrationDto;
+use App\Exception\CouldNotCreateUser;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Service\UserFactory;
@@ -22,7 +23,7 @@ final class RegistrationController extends AbstractController
         private UserFactory $userFactory,
         private UserRepository $userRepository,
         private ValidatorInterface $validator,
-        private SerializerInterface $serializer
+        private SerializerInterface $serializer,
 
     ) {
     }
@@ -45,7 +46,16 @@ final class RegistrationController extends AbstractController
 
         $user = $this->userFactory->create($dto);
 
-        $this->userRepository->add($user, true);
+        try {
+            $this->userRepository->add($user, true);
+        } catch (CouldNotCreateUser $e) {
+            return $this->json(
+                [
+                    'error_message' => $e->getMessage(),
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
 
         $this->emailVerifier->sendEmailConfirmation(
             $user,
